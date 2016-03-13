@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>TC.Injector</id>
+        <version>@VERSION@</version>
+        <authors>Timon Christl</authors>
+        <owners>Timon Christl</owners>
+        <projectUrl>https://github.com/TimonChristl/TC.Injector</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Timon Christl's dependency injector</description>
+        <releaseNotes />
+        <copyright>©2016 by Timon Christl</copyright>
+        <dependencies />
+    </metadata>
+    <files>
+        <file src="TC.Injector\bin\Release\TC.Injector.dll" target="lib\net40\TC.Injector.dll" />
+        <file src="TC.Injector\bin\Release\TC.Injector.xml" target="lib\net40\TC.Injector.xml" />
+    </files>
+</package>

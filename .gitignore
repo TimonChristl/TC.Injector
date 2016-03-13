@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/TC.Injector/bin
+/src/TC.Injector/obj
+/src/TC.Injector.Tests/bin
+/src/TC.Injector.Tests/obj
+/src/.vs/TC.Injector/v14

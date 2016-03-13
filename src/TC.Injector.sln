@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC.Injector", "TC.Injector\TC.Injector.csproj", "{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC.Injector.Tests", "TC.Injector.Tests\TC.Injector.Tests.csproj", "{9FC88041-EFF6-4650-92DB-A1C741CE95E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
