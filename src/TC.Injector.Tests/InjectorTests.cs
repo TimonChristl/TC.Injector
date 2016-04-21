@@ -173,6 +173,59 @@ namespace TC.Injector.Tests
             Assert.IsInstanceOfType(instance2.Tracer, typeof(NonDebugNetworkTracer));
         }
 
+        // ------------------------------------------------------------------------------------------------------------
+
+        class ContractImplementation3 : IContract
+        {
+
+            private INetworkService networkService;
+
+            public ContractImplementation3(INetworkService networkService)
+            {
+                this.networkService = networkService;
+            }
+
+            public INetworkService NetworkService
+            {
+                get { return networkService; }
+            }
+
+            public void Method()
+            {
+            }
+
+            [Inject(Tag = "A")]
+            public IPropertyContract Property1 { get; set; }
+
+            [Inject(Tag = "B")]
+            public IPropertyContract Property2 { get; set; }
+
+        }
+
+        [TestMethod]
+        public void Injector_BindToImplementationTypeWithConstructorInjection_Works()
+        {
+            var injector = new Injector();
+            injector.Bind<IContract>().To<ContractImplementation3>();
+            injector.Bind<INetworkService>().To<NetworkService>();
+
+            Assert.IsInstanceOfType(injector.Get<IContract>(), typeof(ContractImplementation3));
+            Assert.IsInstanceOfType((injector.Get<IContract>() as ContractImplementation3).NetworkService, typeof(NetworkService));
+            Assert.AreNotEqual(injector.Get<IContract>(), injector.Get<IContract>());
+        }
+
+        [TestMethod]
+        public void Injector_BindToImplementationTypeWithConstructorInjection_Singleton_Works()
+        {
+            var injector = new Injector();
+            injector.Bind<IContract>().ToSingleton<ContractImplementation3>();
+            injector.Bind<INetworkService>().To<NetworkService>();
+
+            Assert.IsInstanceOfType(injector.Get<IContract>(), typeof(ContractImplementation3));
+            Assert.IsInstanceOfType((injector.Get<IContract>() as ContractImplementation3).NetworkService, typeof(NetworkService));
+            Assert.AreEqual(injector.Get<IContract>(), injector.Get<IContract>());
+        }
+
     }
 
 }

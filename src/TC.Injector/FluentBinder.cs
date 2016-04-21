@@ -59,14 +59,16 @@ namespace TC.Injector
         /// <typeparamref name="TImplementation"/> (which must derive from the contract type).
         /// </summary>
         /// <remarks>
-        /// The implementation type must provide a parameter-less constructor.
+        /// If the implementation type has only one constructor, its arguments are attempted to be resolved when the instance is created.
+        /// If the implementation type has more than one constructor, the constructor chosen is the one that is marked with <see cref="InjectAttribute"/>.
+        /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
         public void To<TImplementation>()
-            where TImplementation : TContract, new()
+            where TImplementation : class, TContract
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => new TImplementation(), false));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), false));
         }
 
         /// <summary>
@@ -74,14 +76,16 @@ namespace TC.Injector
         /// <typeparamref name="TImplementation"/> (which must derive from the contract type).
         /// </summary>
         /// <remarks>
-        /// The implementation type must provide a parameter-less constructor.
+        /// If the implementation type has only one constructor, its arguments are attempted to be resolved when the instance is created.
+        /// If the implementation type has more than one constructor, the constructor chosen is the one that is marked with <see cref="InjectAttribute"/>.
+        /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
         public void ToSingleton<TImplementation>()
-            where TImplementation : TContract, new()
+            where TImplementation : class, TContract
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => new TImplementation(), true));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), true));
         }
 
         /// <summary>

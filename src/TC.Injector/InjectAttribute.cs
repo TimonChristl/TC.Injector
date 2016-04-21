@@ -8,10 +8,11 @@ namespace TC.Injector
 {
 
     /// <summary>
-    /// Specifies that a property attributed with this attribute should be injected
-    /// by <see cref="Injector"/> when obtaining an instance (<see cref="Injector.Get"/>) or resolving (<see cref="Injector.Resolve{TInstance}(TInstance)"/>.
+    /// Specifies either that a property attributed with this attribute should be injected
+    /// by <see cref="Injector"/> when obtaining an instance (<see cref="Injector.Get"/>) or resolving (<see cref="Injector.Resolve{TInstance}(TInstance)"/>,
+    /// or defines the constructor to use when creating an instance, if multiple constructors are be eligible.
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    [System.AttributeUsage(AttributeTargets.Property | AttributeTargets.Constructor, Inherited = false, AllowMultiple = false)]
     public sealed class InjectAttribute : Attribute
     {
 

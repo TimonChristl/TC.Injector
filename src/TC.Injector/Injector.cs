@@ -248,6 +248,63 @@ namespace TC.Injector
             get { return singletons; }
         }
 
+        internal TImplementation CreateInstance<TImplementation>()
+            where TImplementation : class
+        {
+            var implementationType = typeof(TImplementation);
+
+            var constructors = implementationType.GetConstructors();
+
+            ConstructorInfo chosenConstructor = null;
+            switch(constructors.Length)
+            {
+                case 0:
+                    OnCreateInstanceFailed(CreateInstanceFailureReason.NoConstructors);
+                    break;
+                case 1:
+                    chosenConstructor = constructors[0];
+                    break;
+                default:
+                    var attributedConstructors = constructors.Where(ci => ci.GetCustomAttribute<InjectAttribute>() != null).ToArray();
+                    switch(attributedConstructors.Length)
+                    {
+                        case 0:
+                            OnCreateInstanceFailed(CreateInstanceFailureReason.MultipleConstructorsButNoAttributedOne);
+                            break;
+                        case 1:
+                            chosenConstructor = attributedConstructors[0];
+                            break;
+                        default:
+                            OnCreateInstanceFailed(CreateInstanceFailureReason.MultipleAttributedConstructors);
+                            break;
+                    }
+                    break;
+            }
+
+            if(chosenConstructor != null)
+            {
+                var parameterValues = chosenConstructor
+                    .GetParameters()
+                    .Select(pi => this.Get(pi.ParameterType))
+                    .ToArray();
+
+                return (TImplementation)chosenConstructor.Invoke(parameterValues);
+            }
+
+            return null;
+        }
+
+        private void OnCreateInstanceFailed(CreateInstanceFailureReason multipleAttributedConstructors)
+        {
+            if(CreateInstanceFailed != null)
+                CreateInstanceFailed(this, new CreateInstanceFailedEventArgs(multipleAttributedConstructors));
+        }
+
+        /// <summary>
+        /// Fired when instance creation fails. Only relevant with bindings that bind a contract type to an implementation type.
+        /// </summary>
+        public event EventHandler<CreateInstanceFailedEventArgs> CreateInstanceFailed;
+
     }
 
 }

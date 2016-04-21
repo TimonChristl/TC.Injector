@@ -45,6 +45,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Binders.cs" />
+    <Compile Include="CreateInstanceFailedEventArgs.cs" />
+    <Compile Include="CreateInstanceFailureReason.cs" />
     <Compile Include="FluentBinder.cs" />
     <Compile Include="InjectAttribute.cs" />
     <Compile Include="Injector.cs" />
