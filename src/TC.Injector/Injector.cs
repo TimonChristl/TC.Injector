@@ -129,6 +129,7 @@ namespace TC.Injector
 
         private Dictionary<Type, List<ConditionAndBinding>> bindings = new Dictionary<Type, List<ConditionAndBinding>>();
         private Dictionary<Type, object> singletons = new Dictionary<Type, object>();
+        private object singletonsLockObj = new object();
         private Dictionary<Type, PropertyInfoAndAttribute[]> injectedPropertiesCache = new Dictionary<Type, PropertyInfoAndAttribute[]>();
 
         /// <summary>
@@ -243,11 +244,6 @@ namespace TC.Injector
             });
         }
 
-        internal Dictionary<Type, object> Singletons
-        {
-            get { return singletons; }
-        }
-
         internal TImplementation CreateInstance<TImplementation>()
             where TImplementation : class
         {
@@ -304,6 +300,21 @@ namespace TC.Injector
         /// Fired when instance creation fails. Only relevant with bindings that bind a contract type to an implementation type.
         /// </summary>
         public event EventHandler<CreateInstanceFailedEventArgs> CreateInstanceFailed;
+
+        internal void GetOrCreateSingleton(Type type, out object singletonInstance, out bool singletonWasCreated, Func<object> factory)
+        {
+            lock(singletonsLockObj)
+            {
+                if(!singletons.TryGetValue(type, out singletonInstance))
+                {
+                    singletonInstance = factory();
+                    singletons.Add(type, singletonInstance);
+                    singletonWasCreated = true;
+                }
+
+                singletonWasCreated = false;
+            }
+        }
 
     }
 

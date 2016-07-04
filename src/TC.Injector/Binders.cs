@@ -87,12 +87,8 @@ namespace TC.Injector
             {
                 bool singletonInstanceWasJustCreated = false;
                 object singletonInstance;
-                if(!Injector.Singletons.TryGetValue(typeof(T), out singletonInstance))
-                {
-                    singletonInstance = factory();
-                    Injector.Singletons.Add(typeof(T), singletonInstance);
-                    singletonInstanceWasJustCreated = true;
-                }
+
+                 Injector.GetOrCreateSingleton(typeof(T), out singletonInstance, out singletonInstanceWasJustCreated, () => factory());
 
                 instance = (T)singletonInstance;
                 return singletonInstanceWasJustCreated;

@@ -37,9 +37,8 @@ namespace TC.Injector
         /// Each time an instance is requested for this binding, a new instance will be created.
         /// </summary>
         /// <param name="factory"></param>
-        /// <param name="singleton"></param>
         /// <returns></returns>
-        public void To(Func<TContract> factory, bool singleton = false)
+        public void To(Func<TContract> factory)
         {
             injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, factory, false));
         }
