@@ -17,5 +17,7 @@
         <file src="TC.Injector\FluentBinder.cs" target="content\App_Packages\$packageid$.$packageversion$\FluentBinder.cs" />
         <file src="TC.Injector\InjectAttribute.cs" target="content\App_Packages\$packageid$.$packageversion$\InjectAttribute.cs" />
         <file src="TC.Injector\Injector.cs" target="content\App_Packages\$packageid$.$packageversion$\Injector.cs" />
+        <file src="TC.Injector\CreateInstanceFailedEventArgs.cs" target="content\App_Packages\$packageid$.$packageversion$\CreateInstanceFailedEventArgs.cs" />
+        <file src="TC.Injector\CreateInstanceFailureReason.cs" target="content\App_Packages\$packageid$.$packageversion$\CreateInstanceFailureReason.cs" />
     </files>
 </package>
