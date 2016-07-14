@@ -128,9 +128,12 @@ namespace TC.Injector
         }
 
         private Dictionary<Type, List<ConditionAndBinding>> bindings = new Dictionary<Type, List<ConditionAndBinding>>();
+
         private Dictionary<Type, object> singletons = new Dictionary<Type, object>();
         private object singletonsLockObj = new object();
+
         private Dictionary<Type, PropertyInfoAndAttribute[]> injectedPropertiesCache = new Dictionary<Type, PropertyInfoAndAttribute[]>();
+        private object injectedPropertiesCacheLockObj = new object();
 
         /// <summary>
         /// Creates an instance of the fluent API helper for binding contract types to instances.
@@ -191,16 +194,19 @@ namespace TC.Injector
             var actualInstanceType = instance.GetType();
 
             PropertyInfoAndAttribute[] injectedPropertiesForType;
-            if(!injectedPropertiesCache.TryGetValue(actualInstanceType, out injectedPropertiesForType))
+            lock(injectedPropertiesCacheLockObj)
             {
-                injectedPropertiesForType = instance
-                    .GetType()
-                    .GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-                    .Select(pi => new PropertyInfoAndAttribute { PropertyInfo = pi, Attribute = pi.GetCustomAttribute<InjectAttribute>(), })
-                    .Where(x => x.Attribute != null)
-                    .ToArray();
+                if(!injectedPropertiesCache.TryGetValue(actualInstanceType, out injectedPropertiesForType))
+                {
+                    injectedPropertiesForType = instance
+                        .GetType()
+                        .GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                        .Select(pi => new PropertyInfoAndAttribute { PropertyInfo = pi, Attribute = pi.GetCustomAttribute<InjectAttribute>(), })
+                        .Where(x => x.Attribute != null)
+                        .ToArray();
 
-                injectedPropertiesCache.Add(actualInstanceType, injectedPropertiesForType);
+                    injectedPropertiesCache.Add(actualInstanceType, injectedPropertiesForType);
+                }
             }
 
             foreach(var propertyInfoAndInjectAttribute in injectedPropertiesForType)
