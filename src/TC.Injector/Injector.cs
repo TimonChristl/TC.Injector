@@ -316,9 +316,10 @@ namespace TC.Injector
                     singletonInstance = factory();
                     singletons.Add(type, singletonInstance);
                     singletonWasCreated = true;
+                    return;
                 }
-
-                singletonWasCreated = false;
+                else
+                    singletonWasCreated = false;
             }
         }
 
