@@ -25,6 +25,10 @@ namespace TC.Injector
         /// <summary>
         /// Creates a binding of the contract type <typeparamref name="TContract"/> to the given instance <paramref name="instance"/>.
         /// </summary>
+        /// <remarks>
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method DOES NOT register the instance with the injector to be disposed.
+        /// This is different from the other <c>To</c> and <c>ToSingleton</c> methods.
+        /// </remarks>
         /// <param name="instance"></param>
         /// <returns></returns>
         public void To(TContract instance)
@@ -36,6 +40,9 @@ namespace TC.Injector
         /// Creates a binding of the contract type <typeparamref name="TContract"/> to instances created by <paramref name="factory"/>.
         /// Each time an instance is requested for this binding, a new instance will be created.
         /// </summary>
+        /// <remarks>
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
+        /// </remarks>
         /// <param name="factory"></param>
         /// <returns></returns>
         public void To(Func<TContract> factory)
@@ -46,6 +53,9 @@ namespace TC.Injector
         /// <summary>
         /// Creates a binding of the contract type <typeparamref name="TContract"/> to a singleton instance created by <paramref name="factory"/>.
         /// </summary>
+        /// <remarks>
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
+        /// </remarks>
         /// <param name="factory"></param>
         /// <returns></returns>
         public void ToSingleton(Func<TContract> factory)
@@ -61,6 +71,9 @@ namespace TC.Injector
         /// If the implementation type has only one constructor, its arguments are attempted to be resolved when the instance is created.
         /// If the implementation type has more than one constructor, the constructor chosen is the one that is marked with <see cref="InjectAttribute"/>.
         /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
+        /// </remarks>
+        /// <remarks>
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
@@ -78,6 +91,9 @@ namespace TC.Injector
         /// If the implementation type has only one constructor, its arguments are attempted to be resolved when the instance is created.
         /// If the implementation type has more than one constructor, the constructor chosen is the one that is marked with <see cref="InjectAttribute"/>.
         /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
+        /// </remarks>
+        /// <remarks>
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>

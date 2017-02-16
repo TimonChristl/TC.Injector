@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace TC.Injector
     /// <summary>
     /// Interface for the dependency injector
     /// </summary>
-    public interface IInjector : IServiceProvider
+    public interface IInjector : IDisposable, IServiceProvider
     {
 
         /// <summary>
@@ -174,6 +175,39 @@ namespace TC.Injector
             return instance;
         }
 
+        #region IDisposable implementation
+
+        private bool isDisposed = false;
+
+        /// <inheritdoc/>
+        ~Injector()
+        {
+            if(!isDisposed)
+                Dispose(false);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if(!isDisposed)
+            {
+                Dispose(true);
+                isDisposed = true;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                foreach(var disposable in disposables)
+                    disposable.Dispose();
+            }
+        }
+
+        #endregion
+
         #region IInjector Members
 
         /// <inheritdoc/>
@@ -321,6 +355,13 @@ namespace TC.Injector
                 else
                     singletonWasCreated = false;
             }
+        }
+
+        private ConcurrentBag<IDisposable> disposables = new ConcurrentBag<IDisposable>();
+
+        internal void RegisterDisposable(IDisposable disposable)
+        {
+            disposables.Add(disposable);
         }
 
     }

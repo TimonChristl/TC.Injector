@@ -226,6 +226,123 @@ namespace TC.Injector.Tests
             Assert.AreEqual(injector.Get<IContract>(), injector.Get<IContract>());
         }
 
+        private interface IDisposableContract : IDisposable
+        {
+        }
+
+        private class DisposableImplementation : IDisposableContract 
+        {
+
+            public DisposableImplementation()
+            {
+                NumLiveObjects++;
+            }
+
+            #region IDisposable implementation
+
+            private bool isDisposed = false;
+
+            ~DisposableImplementation()
+            {
+                if(!isDisposed)
+                    Dispose(false);
+            }
+
+            public void Dispose()
+            {
+                if(!isDisposed)
+                {
+                    Dispose(true);
+                    isDisposed = true;
+                    GC.SuppressFinalize(this);
+                }
+            }
+
+            private void Dispose(bool disposing)
+            {
+                if(disposing)
+                {
+                    NumLiveObjects--;
+                }
+            }
+
+            #endregion
+
+            public static int NumLiveObjects = 0;
+
+        }
+
+        [TestMethod]
+        public void Injector_Dispose_Works()
+        {
+            using(var injector = new Injector())
+            {
+                injector.Bind<IDisposableContract>().To<DisposableImplementation>();
+
+                injector.Get<IDisposableContract>();
+                injector.Get<IDisposableContract>();
+            }
+
+            Assert.AreEqual(0, DisposableImplementation.NumLiveObjects);
+        }
+
+        [TestMethod]
+        public void Injector_Dispose_Singleton_Works()
+        {
+            using(var injector = new Injector())
+            {
+                injector.Bind<IDisposableContract>().ToSingleton<DisposableImplementation>();
+
+                injector.Get<IDisposableContract>();
+                injector.Get<IDisposableContract>();
+            }
+
+            Assert.AreEqual(0, DisposableImplementation.NumLiveObjects);
+        }
+
+        [TestMethod]
+        public void Injector_Dispose_Instance_Works()
+        {
+            using(var injector = new Injector())
+            using(var instance = new DisposableImplementation())
+            {
+                injector.Bind<IDisposableContract>().To(instance);
+
+                injector.Get<IDisposableContract>();
+                injector.Get<IDisposableContract>();
+            }
+
+            Assert.AreEqual(0, DisposableImplementation.NumLiveObjects);
+        }
+
+        [TestMethod]
+        public void Injector_Dispose_Factory_Works()
+        {
+            using(var injector = new Injector())
+            {
+                injector.Bind<IDisposableContract>().To(() => new DisposableImplementation());
+
+                injector.Get<IDisposableContract>();
+                injector.Get<IDisposableContract>();
+            }
+
+            Assert.AreEqual(0, DisposableImplementation.NumLiveObjects);
+        }
+
+        [TestMethod]
+        public void Injector_Dispose_SingletonFactory_Works()
+        {
+            using(var injector = new Injector())
+            {
+                injector.Bind<IDisposableContract>().ToSingleton(() => new DisposableImplementation());
+
+                injector.Get<IDisposableContract>();
+                injector.Get<IDisposableContract>();
+            }
+
+            Assert.AreEqual(0, DisposableImplementation.NumLiveObjects);
+        }
+
     }
 
 }

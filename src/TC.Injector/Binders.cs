@@ -91,11 +91,21 @@ namespace TC.Injector
                  Injector.GetOrCreateSingleton(typeof(T), out singletonInstance, out singletonInstanceWasJustCreated, () => factory());
 
                 instance = (T)singletonInstance;
+
+                var disposable = instance as IDisposable;
+                if(disposable != null)
+                    Injector.RegisterDisposable(disposable);
+
                 return singletonInstanceWasJustCreated;
             }
             else
             {
                 instance = factory();
+
+                var disposable = instance as IDisposable;
+                if(disposable != null)
+                    Injector.RegisterDisposable(disposable);
+
                 return true;
             }
         }
