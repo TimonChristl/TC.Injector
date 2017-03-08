@@ -361,7 +361,8 @@ namespace TC.Injector
 
         internal void RegisterDisposable(IDisposable disposable)
         {
-            disposables.Add(disposable);
+            if(disposable != this)
+                disposables.Add(disposable);
         }
 
     }
