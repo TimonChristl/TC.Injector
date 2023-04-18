@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC.Injector", "TC.Injector\TC.Injector.csproj", "{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TC.Injector", "TC.Injector\TC.Injector.csproj", "{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC.Injector.Tests", "TC.Injector.Tests\TC.Injector.Tests.csproj", "{9FC88041-EFF6-4650-92DB-A1C741CE95E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC.Injector.Tests2", "TC.Injector.Tests2\TC.Injector.Tests2.csproj", "{10AF2DB5-CC96-4BE2-BBD5-9728F181211C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32D2A9D7-B8A7-4D60-B0A8-8F9308B9B340}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FC88041-EFF6-4650-92DB-A1C741CE95E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10AF2DB5-CC96-4BE2-BBD5-9728F181211C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10AF2DB5-CC96-4BE2-BBD5-9728F181211C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10AF2DB5-CC96-4BE2-BBD5-9728F181211C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10AF2DB5-CC96-4BE2-BBD5-9728F181211C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

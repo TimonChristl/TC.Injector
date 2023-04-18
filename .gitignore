@@ -4,7 +4,8 @@
 
 /src/TC.Injector/bin
 /src/TC.Injector/obj
-/src/TC.Injector.Tests/bin
-/src/TC.Injector.Tests/obj
+/src/TC.Injector.Tests2/bin
+/src/TC.Injector.Tests2/obj
 /src/.vs/TC.Injector/v14
 /src/.vs/TC.Injector/v15
+/src/.vs/
