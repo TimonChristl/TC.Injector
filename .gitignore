@@ -9,3 +9,5 @@
 /src/.vs/TC.Injector/v14
 /src/.vs/TC.Injector/v15
 /src/.vs/
+/src/TC.Injector.Tests/obj
+/.vs
