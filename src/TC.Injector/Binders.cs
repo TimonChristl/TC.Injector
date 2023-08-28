@@ -70,8 +70,9 @@ namespace TC.Injector
 
         private Func<T> factory;
         private bool singleton;
+        private bool registerDisposable;
 
-        public FactoryBinding(Injector injector, Func<T> factory, bool singleton)
+        public FactoryBinding(Injector injector, Func<T> factory, bool singleton, bool registerDisposable)
             : base(injector)
         {
             if(factory == null)
@@ -79,6 +80,7 @@ namespace TC.Injector
 
             this.factory = factory;
             this.singleton = singleton;
+            this.registerDisposable = registerDisposable;
         }
 
         public override bool GetInstanceCore(out T instance)
@@ -93,7 +95,7 @@ namespace TC.Injector
                 instance = (T)singletonInstance;
 
                 var disposable = instance as IDisposable;
-                if(disposable != null)
+                if(disposable != null && registerDisposable)
                     Injector.RegisterDisposable(disposable);
 
                 return singletonInstanceWasJustCreated;
@@ -103,7 +105,7 @@ namespace TC.Injector
                 instance = factory();
 
                 var disposable = instance as IDisposable;
-                if(disposable != null)
+                if(disposable != null && registerDisposable)
                     Injector.RegisterDisposable(disposable);
 
                 return true;

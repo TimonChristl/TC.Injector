@@ -13,13 +13,19 @@ namespace TC.Injector
     /// <typeparam name="TContract"></typeparam>
     public class FluentBinder<TContract>
     {
-
+        private bool registerDisposable = true;
         private Injector injector;
         private Func<InjectorRequest, bool> condition = null;
 
         internal FluentBinder(Injector injector)
         {
             this.injector = injector;
+        }
+
+        public FluentBinder<TContract> RegisterDisposable(bool enable)
+        {
+            this.registerDisposable = enable;
+            return this;
         }
 
         /// <summary>
@@ -41,13 +47,13 @@ namespace TC.Injector
         /// Each time an instance is requested for this binding, a new instance will be created.
         /// </summary>
         /// <remarks>
-        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed, unless RegisterDisposable(false) was called before this method.
         /// </remarks>
         /// <param name="factory"></param>
         /// <returns></returns>
         public void To(Func<TContract> factory)
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, factory, false));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, factory, false, registerDisposable));
         }
 
         /// <summary>
@@ -60,7 +66,7 @@ namespace TC.Injector
         /// <returns></returns>
         public void ToSingleton(Func<TContract> factory)
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, factory, true));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, factory, true, registerDisposable));
         }
 
         /// <summary>
@@ -73,14 +79,14 @@ namespace TC.Injector
         /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
         /// </remarks>
         /// <remarks>
-        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed, unless RegisterDisposable(false) was called before this method.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
         public void To<TImplementation>()
             where TImplementation : class, TContract
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), false));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), false, registerDisposable));
         }
 
         /// <summary>
@@ -93,14 +99,14 @@ namespace TC.Injector
         /// If there is no such constructor, or if there are multiple such constructors, no instance of the implementation can be created.
         /// </remarks>
         /// <remarks>
-        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed.
+        /// If the instance implements <see cref="IDisposable"/>, instances, this method registers the instance with the injector to be disposed when the injector is disposed, unless RegisterDisposable(false) was called before this method.
         /// </remarks>
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
         public void ToSingleton<TImplementation>()
             where TImplementation : class, TContract
         {
-            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), true));
+            injector.AddBinding(typeof(TContract), condition, new FactoryBinding<TContract>(injector, () => injector.CreateInstance<TImplementation>(), true, registerDisposable));
         }
 
         /// <summary>
